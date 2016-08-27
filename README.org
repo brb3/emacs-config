@@ -1,12 +1,12 @@
 #+TITLE: My Emacs configuration
 
-I use the [[https://github.com/bbatsov/prelude][Prelude]] Emacs "distribution". I'm also a big org-mode fan.
-So in my =~/.emacs.d/personal/custom.el= I have a single line:
+I use the [[https://github.com/bbatsov/prelude][Prelude]] Emacs "distribution". I'm also a big org-mode fan,
+so in my =~/.emacs.d/personal/custom.el= I have a single line:
 
 #+BEGIN_SRC emacs-lisp
 (org-babel-load-file "~/.emacs.d/personal/init.org")
 #+END_SRC
 
-I have the =init.org= in the is repo symlinked to
-=~/.emacs.d/personal/init.org=. The above elisp will create and load an
-=init.el= file from it.
+I have the =init.org= in this repo symlinked to
+=~/.emacs.d/personal/init.org=. The above elisp will create and load
+an =init.el= file from it.
