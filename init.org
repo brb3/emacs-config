@@ -57,7 +57,8 @@ This makes re-centering (<C-l>) go "top-middle-bottom"
 (setq recenter-positions '(top middle bottom))
 #+END_SRC
 
-** PHP
+** Development
+*** PHP
 Make geben listen to port 9001i
 #+BEGIN_SRC emacs-lisp
 (setq dbgp-default-port 9001)
@@ -66,6 +67,12 @@ Make geben listen to port 9001i
 Turn off flycheck-mode
 #+BEGIN_SRC emacs-lisp
 (setq flycheck-global-modes '(not php-mode))
+#+END_SRC
+
+*** Magit
+Turn on =magit-gh-pulls=.
+#+BEGIN_SRC emacs-lisp
+(add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)
 #+END_SRC
 
 ** Misc
