@@ -23,6 +23,11 @@
       auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
 #+END_SRC
 
+Make sure that =tramp= keeps its backups locally
+#+BEGIN_SRC emacs-lisp
+(setq tramp-backup-directory-alist backup-directory-alist)
+#+END_SRC
+
 ** Visual Changes
 We don't need no stinking window chrome
 #+BEGIN_SRC emacs-lisp
@@ -37,13 +42,17 @@ We don't need no stinking window chrome
 Make org-mode look a little nicer, and build agendas correctly. Oh, and also
 open directories in dired and follow links when I hit <RET>
 #+BEGIN_SRC emacs-lisp
-(setq org-ellipsis "…"
+(setq org-ellipsis " […]"
       org-hide-leading-stars t
       org-return-follows-links t
       org-agenda-files '("~/Documents/orgs/"))
 
-
 (add-to-list 'org-file-apps '(directory . emacs))
+#+END_SRC
+
+This makes re-centering (<C-l>) go "top-middle-bottom"
+#+BEGIN_SRC emacs-lisp
+(setq recenter-positions '(top middle bottom))
 #+END_SRC
 
 ** PHP
@@ -81,7 +90,18 @@ Turn off flycheck-mode
 (setq set-mark-command-repeat-pop t)
 #+END_SRC
 
+*** Shorten Yes/No prompts
+#+BEGIN_SRC emacs-lisp
+(fset 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
+
 *** Why would you ever leave Emacs?
 #+BEGIN_SRC emacs-lisp
 (global-unset-key (kbd "C-x C-c"))
+#+END_SRC
+
+*** Enable deactivated commands
+I'm not sure if this is necessary with Prelude, but I'm doing it anyway
+#+BEGIN_SRC emacs-lisp
+(setq disabled-command-function nil)
 #+END_SRC
