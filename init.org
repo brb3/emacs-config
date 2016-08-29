@@ -45,7 +45,9 @@ open directories in dired and follow links when I hit <RET>
 (setq org-ellipsis " […]"
       org-hide-leading-stars t
       org-return-follows-links t
-      org-agenda-files '("~/Documents/orgs/"))
+      org-agenda-files '("~/Documents/orgs/"
+                         "~/Documents/orgs/UPS/"
+                         "~/Documents/orgs/UPS/Magento"))
 
 (add-to-list 'org-file-apps '(directory . emacs))
 #+END_SRC
