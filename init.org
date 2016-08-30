@@ -69,6 +69,48 @@ Turn off flycheck-mode
 (setq flycheck-global-modes '(not php-mode))
 #+END_SRC
 
+Here, I copy some of the changes from [[http://www.blogbyben.com/2016/08/emacs-php-modern-and-far-more-complete.html][this blog post]] by Ben Simon.
+This enables [[https://www.gnu.org/software/emacs/manual/html_node/ccmode/Subword-Movement.html][subword-mode]], and turns off template compatibility, and
+verifies some formatting settings.
+
+#+BEGIN_SRC emacs-lisp
+(defun brb3-php-mode-hook ()
+       (auto-complete-mode t)
+       (yas-global-mode 1)
+       (require 'ac-php)
+       (setq indent-tabs-mode nil
+             c-basic-offset 4
+             php-template-compatibility nil
+             subword-mode 1
+             ac-sources '(ac-source-php))
+
+(add-hook 'php-mode-hook 'brb3-php-mode-hook)
+#+END_SRC
+
+Next, also inspired by Ben Simon's blog post, we setup web-mode to use
+with template files (=.phtml=). Also, configured =<f5>= to quickly
+toggle between the two modes.
+
+#+BEGIN_SRC emacs-lisp
+(defun brb3-web-mode-hook ()
+       (setq indent-tabs-mode nil
+             web-mode-markup-indent-offset 4
+             web-mode-css-indent-offset 4
+             web-mode-code-indent-offset 4))
+
+(add-hook 'web-mode-hook 'brb3-web-mode-hook)
+
+(defun toggle-php-flavor-mode ()
+       (interactive)
+       "Toggle mode between php-mode & web-mode"
+       (cond ((eq major-mode 'php-mode)
+              (web-mode))
+             ((eq major-mode 'web-mode)
+              (php-mode))))
+
+(global-set-key [f5] 'toggle-php-flavor-mode)
+#+END_SRC
+
 *** Magit
 Turn on =magit-gh-pulls=.
 #+BEGIN_SRC emacs-lisp
