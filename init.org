@@ -82,7 +82,7 @@ verifies some formatting settings.
              c-basic-offset 4
              php-template-compatibility nil
              subword-mode 1
-             ac-sources '(ac-source-php))
+             ac-sources '(ac-source-php)))
 
 (add-hook 'php-mode-hook 'brb3-php-mode-hook)
 #+END_SRC
