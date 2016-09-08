@@ -80,12 +80,11 @@ Configure =package=, the package archives and =use-package=.
 
 #+END_SRC
 *** Visual Changes
-We don't need no stinking window chrome. Use a different theme.
+We don't need no stinking window chrome.
 #+BEGIN_SRC emacs-lisp
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
-  (disable-theme 'zenburn)
-  (require 'danneskjold-theme)
+  (menu-bar-mode -1)
 #+END_SRC
 
 Startup, encoding, fill-column, etc.
