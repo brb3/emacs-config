@@ -14,7 +14,8 @@
         user-mail-address "bobby@brb3.org")
 #+END_SRC
 
-** Backups
+** The Basics
+*** Backups
 #+BEGIN_SRC emacs-lisp
   (setq backup-directory-alist '(("." . "~/.emacs.d/backups"))
         delete-old-versions -1
@@ -28,15 +29,76 @@ Make sure that =tramp= keeps its backups locally
   (setq tramp-backup-directory-alist backup-directory-alist)
 #+END_SRC
 
-** Visual Changes
-We don't need no stinking window chrome
+*** Package Management
+Configure =package=, the package archives and =use-package=.
+#+BEGIN_SRC emacs-lisp
+  (require 'package)
+
+  (setq package-enable-at-startup nil
+        package-archives '(("org"       . "http://orgmode.org/elpa/")
+                           ("gnu"       . "http://elpa.gnu.org/packages/")
+                           ("melpa"     . "https://melpa.org/packages/")
+                           ("marmalade" . "http://marmalade-repo.org/packages/")))
+
+  (package-initialize)
+
+  (unless (package-installed-p 'use-package) ;; unless it is already installed
+    (package-refresh-contents)               ;; update packages archive
+    (package-install 'use-package))          ;; and install the most recent version of use-package
+
+  (require 'use-package)
+#+END_SRC
+
+*** General Packages
+#+BEGIN_SRC emacs-lisp
+  ;; Ivy
+  (use-package general :ensure t)
+  (use-package swiper :ensure t)
+  (use-package counsel :ensure t)
+  (use-package ivy :ensure t
+    :config
+    (ivy-mode 1)
+    (general-define-key
+     "C-s" 'swiper
+     "M-x" 'counsel-M-x
+     "C-x C-f" 'counsel-find-file))
+
+  ;; Gotta have magit
+  (use-package magit :ensure t
+    :config
+    (general-define-key
+     "C-x g" 'magit-status))
+
+  ;; And projectile
+  (use-package projectile :ensure t)
+  (use-package counsel-projectile :ensure t
+    :config
+    (general-define-key
+     "C-c pf" 'counsel-projectile-find-file))
+
+  (use-package ag :ensure t)
+
+#+END_SRC
+*** Visual Changes
+We don't need no stinking window chrome. Use a different theme.
 #+BEGIN_SRC emacs-lisp
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
+  (disable-theme 'zenburn)
+  (require 'danneskjold-theme)
 #+END_SRC
 
+Startup, encoding, fill-column, etc.
 #+BEGIN_SRC emacs-lisp
-  (setq fill-column 80)
+  (setq fill-column 80
+        default-fill-column 80
+        vc-follow-symlinks t
+        inhibit-startup-screen t
+        ring-bell-function 'ignore
+        coding-system-for-read 'utf-8
+        coding-system-for-write 'utf-8 
+        sentence-end-double-space nil
+        initial-scratch-message ";; Welcome to Emacs\n\n")
 #+END_SRC
 
 Make org-mode look a little nicer, and build agendas correctly. Oh, and also
@@ -57,16 +119,26 @@ This makes re-centering (<C-l>) go "top-middle-bottom"
   (setq recenter-positions '(top middle bottom))
 #+END_SRC
 
-** Development
-*** PHP
-Make geben listen to port 9001i
+Using =danneskjold-theme=
 #+BEGIN_SRC emacs-lisp
-(setq dbgp-default-port 9001)
+  (use-package danneskjold-theme :ensure t)
 #+END_SRC
 
-Turn off flycheck-mode
+** Development
+Tabs and spaces, the eternal debate
 #+BEGIN_SRC emacs-lisp
-(setq flycheck-global-modes '(not php-mode))
+  (setq indent-tabs-mode nil
+        c-basic-offset 4
+        nxml-child-indent 4
+        nxml-attribute-indent 4)
+#+END_SRC
+
+*** PHP
+Make geben listen to port 9001
+#+BEGIN_SRC emacs-lisp
+  (use-package geben :ensure t
+    :config
+    (setq dbgp-default-port 9001))
 #+END_SRC
 
 Here, I copy some of the changes from [[http://www.blogbyben.com/2016/08/emacs-php-modern-and-far-more-complete.html][this blog post]] by Ben Simon.
@@ -74,17 +146,21 @@ This enables [[https://www.gnu.org/software/emacs/manual/html_node/ccmode/Subwor
 verifies some formatting settings.
 
 #+BEGIN_SRC emacs-lisp
-(defun brb3-php-mode-hook ()
-       (auto-complete-mode t)
-       (yas-global-mode 1)
-       (require 'ac-php)
-       (setq indent-tabs-mode nil
-             c-basic-offset 4
-             php-template-compatibility nil
-             subword-mode 1
-             ac-sources '(ac-source-php)))
+  (use-package php-mode :ensure t)
+  (use-package web-mode :ensure t)
+  (use-package ac-php :ensure t)
 
-(add-hook 'php-mode-hook 'brb3-php-mode-hook)
+  (defun brb3-php-mode-hook ()
+    (auto-complete-mode t)
+    (yas-global-mode 1)
+    (require 'ac-php)
+    (setq indent-tabs-mode nil
+          c-basic-offset 4
+          php-template-compatibility nil
+          subword-mode 1
+          ac-sources '(ac-source-php)))
+
+  (add-hook 'php-mode-hook 'brb3-php-mode-hook)
 #+END_SRC
 
 Next, also inspired by Ben Simon's blog post, we setup web-mode to use
@@ -114,7 +190,9 @@ toggle between the two modes.
 *** Magit
 Turn on =magit-gh-pulls=.
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)
+  (use-package magit-gh-pulls :ensure t
+    :config
+    (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
 #+END_SRC
 
 ** Misc
@@ -152,7 +230,13 @@ Turn on =magit-gh-pulls=.
 #+END_SRC
 
 *** Enable deactivated commands
-I'm not sure if this is necessary with Prelude, but I'm doing it anyway
 #+BEGIN_SRC emacs-lisp
   (setq disabled-command-function nil)
+#+END_SRC
+*** M-x with C-x m
+
+#+BEGIN_SRC emacs-lisp
+  (general-define-key
+   "C-x m" 'counsel-M-x
+   "C-x C-m" 'counsel-M-x)
 #+END_SRC
