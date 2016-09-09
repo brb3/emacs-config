@@ -1,13 +1,26 @@
 #+TITLE: Bobby Burden III's Emacs Configuration File
 
 * Configuration
-** MacOS Specific Changes
+** macOS Specific Changes
+On macOS, I need to shuffle the modifier keys around a bit. I have =cmd= mapped
+to Caps-Lock, so I want to use that as =C-= in emacs.
 #+BEGIN_SRC emacs-lisp
-  (setq mac-command-modifier 'ctrl
-        mac-option-modifier 'meta
-        mac-control-modifier 'super)
+  (if (eq system-type 'darwin)
+      (setq mac-command-modifier 'ctrl
+            mac-option-modifier 'meta
+            mac-control-modifier 'super))
 #+END_SRC
 
+** Linux Specific Changes
+When on Linux, I want to disable =menu-bar-mode=. I need it on macOS for
+fullscreen to work properly.
+
+On Linux, I don't adjust the modifier keys, as I normally will map =Ctrl= to
+replace Caps-Lock.
+#+BEGIN_SRC emacs-lisp
+  (if (eq system-type 'gnu/linux)
+      (menu-bar-mode -1))
+#+END_SRC
 ** Personal Information
 #+BEGIN_SRC emacs-lisp
   (setq user-full-name "Bobby Burden III"
@@ -84,7 +97,6 @@ We don't need no stinking window chrome.
 #+BEGIN_SRC emacs-lisp
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
-  (menu-bar-mode -1)
 #+END_SRC
 
 Startup, encoding, fill-column, etc.
