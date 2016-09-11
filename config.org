@@ -28,6 +28,13 @@ replace Caps-Lock.
 #+END_SRC
 
 ** The Basics
+*** Start the Server
+I use =emacsclient= when editing files in a terminal or eshell, so I need the
+server running
+#+BEGIN_SRC emacs-lisp
+  (server-start)
+#+END_SRC
+
 *** Backups
 #+BEGIN_SRC emacs-lisp
   (setq backup-directory-alist '(("." . "~/.emacs.d/backups"))
