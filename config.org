@@ -70,6 +70,7 @@ Configure =package=, the package archives and =use-package=.
 #+END_SRC
 
 *** General Packages
+Setup =ivy= and friends.
 #+BEGIN_SRC emacs-lisp
   ;; Ivy
   (use-package general :ensure t)
@@ -86,14 +87,19 @@ Configure =package=, the package archives and =use-package=.
      "C-x C-f" 'counsel-find-file
      "C-x r" 'counsel-recentf
      "C-x C-r" 'counsel-recentf))
+#+END_SRC
 
+Make sure to add =magit=.
+#+BEGIN_SRC emacs-lisp
   ;; Gotta have magit
   (use-package magit :ensure t
     :config
     (general-define-key
      "C-x g" 'magit-status))
+#+END_SRC
 
-  ;; And projectile
+Next are =projectile=, =ag=, =smex=, and =dired+=.
+#+BEGIN_SRC emacs-lisp
   (use-package projectile :ensure t)
   (use-package counsel-projectile :ensure t
     :config
@@ -103,7 +109,10 @@ Configure =package=, the package archives and =use-package=.
   (use-package ag :ensure t)
   (use-package smex :ensure t)
 
-
+  ;; Get dired+, reuse the same buffer when opening directories
+  (use-package dired+ :ensure t
+    :config
+    (toggle-diredp-find-file-reuse-dir 1))
 #+END_SRC
 *** Visual Changes
 We don't need no stinking window chrome.
@@ -131,9 +140,7 @@ open directories in dired and follow links when I hit <RET>
   (setq org-ellipsis " […]"
         org-hide-leading-stars t
         org-return-follows-links t
-        org-agenda-files '("~/Documents/orgs/"
-                           "~/Documents/orgs/UPS/"
-                           "~/Documents/orgs/UPS/Magento"))
+        org-agenda-files '("~/Documents/orgs/"))
 
   (add-to-list 'org-file-apps '(directory . emacs))
 #+END_SRC
