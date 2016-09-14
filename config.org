@@ -84,6 +84,7 @@ Setup =ivy= and friends.
     (general-define-key
      "C-s" 'swiper
      "M-x" 'counsel-M-x
+     "C-x C-m" 'counsel-M-x
      "C-x C-f" 'counsel-find-file
      "C-x r" 'counsel-recentf
      "C-x C-r" 'counsel-recentf))
@@ -298,13 +299,6 @@ I use =restclient= for testing.
 *** Enable deactivated commands
 #+BEGIN_SRC emacs-lisp
   (setq disabled-command-function nil)
-#+END_SRC
-*** M-x with C-x m
-
-#+BEGIN_SRC emacs-lisp
-  (general-define-key
-   "C-x m" 'counsel-M-x
-   "C-x C-m" 'counsel-M-x)
 #+END_SRC
 *** Twitter
 #+BEGIN_SRC emacs-lisp
