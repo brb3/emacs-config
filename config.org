@@ -84,6 +84,7 @@ Setup =ivy= and friends.
     (general-define-key
      "C-s" 'swiper
      "M-x" 'counsel-M-x
+     "C-x C-m" 'counsel-M-x
      "C-x C-f" 'counsel-find-file
      "C-x r" 'counsel-recentf
      "C-x C-r" 'counsel-recentf))
@@ -113,6 +114,10 @@ Next are =projectile=, =ag=, =smex=, and =dired+=.
   (use-package dired+ :ensure t
     :config
     (toggle-diredp-find-file-reuse-dir 1))
+
+  ;; macOS's ls doesn't support the "--dired" switch (BSD ls vs. GNU ls)
+  (if (eq system-type 'darwin)
+      (setq dired-use-ls-dired nil))
 #+END_SRC
 
 Grab =markdown-mode=
@@ -134,7 +139,7 @@ Startup, encoding, fill-column, etc.
         inhibit-startup-screen t
         ring-bell-function 'ignore
         coding-system-for-read 'utf-8
-        coding-system-for-write 'utf-8 
+        coding-system-for-write 'utf-8
         sentence-end-double-space nil
         initial-scratch-message ";; Welcome to Emacs\n\n")
 #+END_SRC
@@ -169,13 +174,28 @@ Using =moe-theme= and =powerline=
     (powerline-moe-theme))
 #+END_SRC
 
+Enable =winner-mode=.
+#+BEGIN_SRC emacs-lisp
+  (winner-mode 1)
+#+END_SRC
+
+=nyan-mode= because why not?
+#+BEGIN_SRC emacs-lisp
+  (use-package nyan-mode :ensure t
+    :config
+    (nyan-mode t)
+    (nyan-start-animation))
+#+END_SRC
+
 ** Development
-Tabs and spaces, the eternal debate
+Tabs and spaces, the eternal debate. Also, get rid of trailing whitespace.
 #+BEGIN_SRC emacs-lisp
   (setq indent-tabs-mode nil
         c-basic-offset 4
         nxml-child-indent 4
         nxml-attribute-indent 4)
+
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
 
 *** PHP
@@ -240,6 +260,16 @@ Turn on =magit-gh-pulls=.
     (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
 #+END_SRC
 
+*** Swift
+Add =swift3-mode=.
+#+BEGIN_SRC emacs-lisp
+  (use-package swift3-mode :ensure t)
+#+END_SRC
+*** Web
+I use =restclient= for testing.
+#+BEGIN_SRC emacs-lisp
+  (use-package restclient :ensure t)
+#+END_SRC
 ** Misc
 *** Sentences should end with a single space.
 #+BEGIN_SRC emacs-lisp
@@ -278,12 +308,12 @@ Turn on =magit-gh-pulls=.
 #+BEGIN_SRC emacs-lisp
   (setq disabled-command-function nil)
 #+END_SRC
-*** M-x with C-x m
-
+*** Twitter
 #+BEGIN_SRC emacs-lisp
-  (general-define-key
-   "C-x m" 'counsel-M-x
-   "C-x C-m" 'counsel-M-x)
+  (use-package twittering-mode :ensure t
+    :config
+    (setq twittering-use-master-password t
+          twittering-icon-mode t))
 #+END_SRC
 *** NixOS
 Add package for NixOS configs
