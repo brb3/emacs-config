@@ -179,6 +179,14 @@ Enable =winner-mode=.
   (winner-mode 1)
 #+END_SRC
 
+=nyan-mode= because why not?
+#+BEGIN_SRC emacs-lisp
+  (use-package nyan-mode :ensure t
+    :config
+    (nyan-mode t)
+    (nyan-start-animation))
+#+END_SRC
+
 ** Development
 Tabs and spaces, the eternal debate. Also, get rid of trailing whitespace.
 #+BEGIN_SRC emacs-lisp
