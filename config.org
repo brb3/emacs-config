@@ -159,6 +159,7 @@ open directories in dired and follow links when I hit <RET>
         org-agenda-files '("~/Documents/orgs/"))
 
   (add-to-list 'org-file-apps '(directory . emacs))
+  (add-hook 'org-mode-hook 'auto-fill-mode)
 #+END_SRC
 
 This makes re-centering (<C-l>) go "top-middle-bottom"
