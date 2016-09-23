@@ -69,6 +69,14 @@ Configure =package=, the package archives and =use-package=.
   (require 'use-package)
 #+END_SRC
 
+Also, tell emacs to write the =custom= crap to =/dev/null=. I don't want it in
+my init. Keep in mind that if you are reading this to find stuff to add to your
+emacs config, this will completely break the customize interface. DO NOT add
+this to your emacs config if you use that.
+#+BEGIN_SRC emacs-lisp
+  (setq custom-file "/dev/null")
+#+END_SRC
+
 *** General Packages
 Setup =ivy= and friends.
 #+BEGIN_SRC emacs-lisp
@@ -142,12 +150,6 @@ Startup, encoding, fill-column, etc.
         coding-system-for-write 'utf-8
         sentence-end-double-space nil
         initial-scratch-message ";; Welcome to Emacs\n\n")
-
-  (use-package fill-column-indicator :ensure t
-    :config
-    (setq fci-rule-width 2
-          fci-rule-color "black")
-    (add-hook 'after-change-major-mode-hook 'fci-mode))
 #+END_SRC
 
 Make org-mode look a little nicer, and build agendas correctly. Oh, and also
@@ -169,10 +171,13 @@ This makes re-centering (<C-l>) go "top-middle-bottom"
 
 Using =sanityinc-tomorrow-bright= theme, =powerline=, and =Envy Code R= font.
 #+BEGIN_SRC emacs-lisp
-  (use-package powerline :ensure t)
   (use-package color-theme-sanityinc-tomorrow :ensure t
     :config
     (color-theme-sanityinc-tomorrow-bright))
+
+  (use-package powerline :ensure t
+    :config
+    (powerline-default-theme))
 
   (set-default-font "Envy Code R-13")
 #+END_SRC
