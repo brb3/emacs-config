@@ -179,7 +179,8 @@ Using =sanityinc-tomorrow-bright= theme, =powerline=, and =Envy Code R= font.
     :config
     (powerline-default-theme))
 
-  (set-default-font "Envy Code R-13")
+  (if (eq system-type 'darwin)
+      (set-default-font "Envy Code R-13"))
 #+END_SRC
 
 Using =highlight-indentation=
