@@ -132,6 +132,29 @@ Grab =markdown-mode=
 #+BEGIN_SRC emacs-lisp
   (use-package markdown-mode :ensure t)
 #+END_SRC
+
+Setup =emacs-slack=
+#+BEGIN_SRC emacs-lisp
+  (use-package slack :ensure t
+    :commands (slack-start)
+    :init
+    (setq slack-buffer-emojify t)
+    (setq slack-prefer-current-team t)
+    :config
+    (slack-register-team
+     :name "chaDev"
+     :default t
+     :client-id "7110724736.92789926257"
+     :client-secret "b9de94faff1bcbd7c42b84fc26307759"
+     :token "xoxp-7110724736-7218737478-92796031458-9595c7db37b2db02e289ba54864f4b4f"
+     :subscribed-channels '(general emacs guns introductions keyboards linux opportunities php politics the-dg-refugees)))
+
+  (use-package alert
+    :commands (alert)
+    :init
+    (setq alert-default-style 'notifier))
+#+END_SRC
+
 *** Visual Changes
 We don't need no stinking window chrome.
 #+BEGIN_SRC emacs-lisp
