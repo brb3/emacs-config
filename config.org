@@ -8,7 +8,8 @@ to Caps-Lock, so I want to use that as =C-= in emacs.
   (if (eq system-type 'darwin)
       (setq mac-command-modifier 'ctrl
             mac-option-modifier 'meta
-            mac-control-modifier 'super))
+            mac-control-modifier 'super)
+    (add-to-list 'exec-path "/usr/local/texlive/2016/bin/universal-darwin"))
 #+END_SRC
 
 ** Linux Specific Changes
@@ -274,11 +275,10 @@ toggle between the two modes.
 #+END_SRC
 
 *** Magit
-Turn on =magit-gh-pulls=.
+Turn on =magithub=.
 #+BEGIN_SRC emacs-lisp
-  (use-package magit-gh-pulls :ensure t
-    :config
-    (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
+  (use-package magithub :ensure t
+    :after magit)
 #+END_SRC
 
 *** Swift
@@ -299,6 +299,14 @@ I'm using =yasnippet= so I can type a bit less, and be more productive (right?).
     (yas-global-mode 1)
     :config
     (add-to-list 'yas-snippet-dirs (locate-user-emacs-file "snippets")))
+#+END_SRC
+*** CSV mode
+#+BEGIN_SRC emacs-lisp
+  (use-package csv-mode :ensure t)
+#+END_SRC
+*** YAML mode
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode :ensure t)
 #+END_SRC
 ** Misc
 *** Sentences should end with a single space.
